@@ -8,7 +8,6 @@ int gcd(int a,int b){
         if(a%i==0 && b%i==0){
             gcd=i;
         }
-
     }
     return gcd;
 }

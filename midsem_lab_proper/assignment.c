@@ -1,34 +1,33 @@
 #include<stdio.h>
-#include<stdlib.h>
 #include<time.h>
+#include<stdlib.h>
 
-#define INF 999999
+#define INF 99999
 
-int matrix[4][4]={
+int matrix[4][4] = {
     {9, 2, 7, 8},
     {6, 4, 3, 7},
     {5, 8, 1, 8},
     {7, 6, 9, 4}
 };
 
-void main(){
-    int sum=0;
-    int min_sum=INF;
-    clock_t start,end;
 
+void main(){
+    int minSum=INF,sum=0;
     int i,j,k,l;
+    clock_t start,end;
 
     start=clock();
     for(i=0;i<4;i++){
         for(j=0;j<4;j++){
             for(k=0;k<4;k++){
                 for(l=0;l<4;l++){
-
                     if(i!=j && i!=k && i!=l && j!=k && j!=l && k!=l){
-                        sum=matrix[0][i]+matrix[1][j]+matrix[2][k]+matrix[3][l];
+                        sum = matrix[i][0] + matrix[j][1] + matrix[k][2] + matrix[l][3];
+                    
 
-                        if(min_sum>sum){
-                            min_sum = sum;
+                        if(sum<minSum){
+                            minSum=sum;
                         }
                     }
                 }
@@ -37,9 +36,9 @@ void main(){
     }
     end=clock();
 
-    double timeConsumed= ((double)(end-start))/CLOCKS_PER_SEC;
+    double timeTaken=(double)(end-start)/CLOCKS_PER_SEC;
 
-    printf("\nTime consumed : %f",timeConsumed);
+    printf("Min sum : %d",minSum);
 
-    printf("\nMin Sum : %d",min_sum);
+    printf("\nTime taken : %f",timeTaken);
 }
