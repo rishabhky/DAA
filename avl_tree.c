@@ -8,7 +8,6 @@ struct Node{
     int height;
 };
 
-
 int height(struct Node* N){
     if(N==NULL)
         return 0;
@@ -61,7 +60,6 @@ int getBalance(struct Node *N){
     
     return height(N->left)-height(N->right);
 }
-
 
 struct Node* insert(struct Node* node,int key){
     if(node==NULL)
