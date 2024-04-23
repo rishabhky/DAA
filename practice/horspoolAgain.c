@@ -2,17 +2,19 @@
 #include<stdlib.h>
 #include<string.h>
 
-void preshiftTable(char pattern[], int shiftTable[]){
+void preshiftTable(char pattern[],int shiftTable[]){
     int m=strlen(pattern);
     for(int i=0;i<256;i++)
         shiftTable[i]=m;
+    
     for(int i=0;i<m-1;i++)
-        shiftTable[pattern[i]]=m-1-i;
+        shiftTable[pattern[i]]=m-i-1;
 }
 
-int horspoolMatching(char text[], char pattern[]){
+void horspool(char text[],char pattern[]){
     int n=strlen(text);
     int m=strlen(pattern);
+
     int shiftTable[256];
 
     preshiftTable(pattern,shiftTable);
@@ -21,15 +23,19 @@ int horspoolMatching(char text[], char pattern[]){
     int k;
 
     while(i<n){
-        k=0;
-        while(k<=m-1 && text[i-k]==pattern[m-1-k]){
+        int k=0;
+
+        if(k<m-1 && text[i-k]==pattern[m-1-k]){
             k++;
         }
 
-        if(k==m)
-            return i - m + 1;
-        else
+
+        if(k==m){
+            return i-m+1;
+        }
+        else{
             i+=shiftTable[text[i]];
+        }
     }
 
     return -1;

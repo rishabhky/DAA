@@ -18,7 +18,7 @@ int isEmpty(){
     return top==-1;
 }
 
-void dfs(int node,int num_nodes,int graph[][max],int visited[]){
+void dfs(int node,int num_nodes,int graph[][max], int visited[]){
     int neighbour;
     visited[node]=1;
 

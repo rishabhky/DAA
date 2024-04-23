@@ -1,41 +1,55 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
 
-int knapSackRec(int W,int wt[], int val[],int index, int ** dp, int n){
-    if(index<0)
-        return 0;
-        
-    if(dp[index][W]!=-1)
-        return dp[index][W];
-    
-    if(wt[index]>W){
-        dp[index][W]=knapSackRec(W,wt,val,index-1,dp,n);
-        return dp[index][W];
-    }
+// Function to find the maximum of two integers
+int max(int a, int b) {
+    return (a > b) ? a : b;
 }
 
-int knapsack(int W,int wt[],int val[],int n){
-    int** dp;
-    dp=(int **)malloc(n* sizeof(int *));
+// Function to solve 0/1 Knapsack problem
+int knapSack(int W, int wt[], int val[], int n) {
+    int i, w;
+    int K[n + 1][W + 1];
 
-    for(int i=0;i<n;i++){
-        dp[i]=(int *)malloc((W+1)*sizeof(int));
-    }
-
-    for(int i=0;i<n;i++){
-        for(int j=0;j<W+1;j++){
-            dp[i][j]=-1;
+    // Build K[][] in bottom-up manner
+    for (i = 0; i <= n; i++) {
+        for (w = 0; w <= W; w++) {
+            if (i == 0 || w == 0)
+                K[i][w] = 0;
+            else if (wt[i - 1] <= w)
+                K[i][w] = max(val[i - 1] + K[i - 1][w - wt[i - 1]], K[i - 1][w]);
+            else
+                K[i][w] = K[i - 1][w];
         }
     }
-    return knapSackRec(W,wt,val,n-1,dp,n);
+
+    // K[n][W] contains the maximum value that can be put in a knapsack of capacity W
+    return K[n][W];
 }
 
-int main()
-{
-    int profit[] = { 60, 100, 120 };
-    int weight[] = { 10, 20, 30 };
-    int W = 50;
-    int n = sizeof(profit) / sizeof(profit[0]);
-    printf("%d\n", knapSack(W, weight, profit, n));
+// Driver program
+int main() {
+    int n, W;
+
+    printf("Enter the number of items: ");
+    scanf("%d", &n);
+
+    int val[n], wt[n];
+
+    printf("Enter the values of the items:\n");
+    for (int i = 0; i < n; i++) {
+        printf("Value of item %d: ", i + 1);
+        scanf("%d", &val[i]);
+    }
+
+    printf("Enter the weights of the items:\n");
+    for (int i = 0; i < n; i++) {
+        printf("Weight of item %d: ", i + 1);
+        scanf("%d", &wt[i]);
+    }
+
+    printf("Enter the knapsack capacity: ");
+    scanf("%d", &W);
+
+    printf("Maximum value that can be obtained is %d\n", knapSack(W, wt, val, n));
     return 0;
 }
